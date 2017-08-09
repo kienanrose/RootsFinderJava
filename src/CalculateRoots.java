@@ -12,26 +12,43 @@ public class CalculateRoots {
         int degree = getDegree();
         List<Double> factors = getFactors(degree);
 
-        System.out.println("Root: " + getRoot(factors, degree));
+        System.out.println("Root: " + getRoot(factors));
 
 
     }
 
-    private static Double getRoot(List<Double> factors, int degree){
+    private static Double getRoot(List<Double> factors){
         Double result;
+        int degree = factors.size() - 1;
+        Double offset = 100.0;
         Double argument = -1000.0;
-        while(argument <= 1000.0){
+        Double temp;
 
-            result = evaluate(factors, argument);
-            result = setPrecision(result);
-            printResult(result, argument);
+        while(true){
+            do {
+                result = evaluate(factors, argument);
 
-            if(result == 0.0){
-                return setPrecision(argument);
-            }
-            argument+=0.1;
+                if(result == 0){
+                    return argument;
+                }
+                argument += offset;
+                temp = evaluate(factors, argument);
+
+            } while(result >= temp);
+
+            offset /= 2;
+
+            do{
+                result = evaluate(factors, argument);
+
+                if(result == 0){
+                    return setPrecision(argument);
+                }
+                argument -= offset;
+                temp = evaluate(factors, argument);
+
+            } while(result >= temp);
         }
-        return null;
     }
 
     private static int getDegree() {
