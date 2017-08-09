@@ -93,12 +93,14 @@ class CalculateRoots {
      *
      * @return degree in Int
      */
-    int getDegree() {
-
+    Double getDegree() {
         System.out.println("Insert degree: ");
-
-        Scanner degree = new Scanner(System.in);
-        return degree.nextInt();
+        try {
+            return new Scanner(System.in).nextDouble();
+        } catch (Exception e) {
+            System.out.println("You need to insert numbers (duh)");
+            return getDegree();
+        }
     }
 
     /**
@@ -107,14 +109,21 @@ class CalculateRoots {
      * @param degree so we know how many inputs to take
      * @return a list of factors
      */
-    List<Double> getFactors(int degree) {
+    List<Double> getFactors(Double degree) {
 
         System.out.println("Insert factors: ");
 
-        List<Double> factors = new ArrayList<>(degree);
+        List<Double> factors = new ArrayList<>(degree.intValue());
+
         for (int i = 0; i <= degree; i++) {
-            factors.add(new Scanner(System.in).nextDouble());
+            try {
+                factors.add(new Scanner(System.in).nextDouble());
+            } catch (Exception e) {
+                System.out.println("You need to insert numbers (duh)");
+                return getFactors(degree);
+            }
         }
+
         return factors;
     }
 

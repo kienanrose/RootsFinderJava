@@ -8,7 +8,7 @@ public class Main {
 
         CalculateRoots calculateRoots = new CalculateRoots();
 
-        int degree = calculateRoots.getDegree();
+        Double degree = calculateRoots.getDegree();
         List<Double> factors = calculateRoots.getFactors(degree);
 
         System.out.println("Roots: " + Arrays.toString(calculateRoots.getRoots(factors).toArray()));
