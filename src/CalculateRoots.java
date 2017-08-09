@@ -1,7 +1,9 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import static java.lang.Math.abs;
 import static java.lang.Math.pow;
 
 public class CalculateRoots {
@@ -12,44 +14,51 @@ public class CalculateRoots {
         int degree = getDegree();
         List<Double> factors = getFactors(degree);
 
-        System.out.println("Root: " + getRoot(factors));
+        System.out.println("Roots: " + Arrays.toString(getRoots(factors).toArray()));
 
 
     }
 
-    private static Double getRoot(List<Double> factors){
+    private static List<Double> getRoots(List<Double> factors) {
         Double result;
         int degree = factors.size() - 1;
         Double offset = 100.0;
-        Double argument = -1000.0;
+        Double argument = -10000.0;
+        List<Double> roots = new ArrayList<>();
         Double temp;
+        boolean change = true;
+        int rootsFound = 0;
 
-        while(true){
+        while (true) {
             do {
                 result = evaluate(factors, argument);
 
-                if(result == 0){
-                    return argument;
+                if (result == 0) {
+                    rootsFound++;
+                    roots.add(setPrecision(argument));
+                }                           // return setPrecision(argument);
+
+                if (change) {
+                    argument += offset;
+                    argument = setPrecision(argument);
+                } else {
+                    argument -= offset;
+                    argument = setPrecision(argument);
                 }
-                argument += offset;
+
                 temp = evaluate(factors, argument);
 
-            } while(result >= temp);
+            } while (abs(result) >= abs(temp));
 
+            printResult(result, argument);
             offset /= 2;
 
-            do{
-                result = evaluate(factors, argument);
+            change = !change;
 
-                if(result == 0){
-                    return setPrecision(argument);
-                }
-                argument -= offset;
-                temp = evaluate(factors, argument);
-
-            } while(result >= temp);
+            if (rootsFound == degree) return roots;
         }
     }
+
 
     private static int getDegree() {
 
@@ -74,16 +83,20 @@ public class CalculateRoots {
         System.out.println("f(" + input + ") = " + result);
     }
 
-    private static Double evaluate(List<Double> factors, Double value) {
-        Double result;
+    private static Double evaluate(List<Double> factors, Double argument) {
 
-        result = factors.get(0) + factors.get(1) * value + factors.get(2) * pow(value, 2);
+        Double value = 0.0;
+        int degree = factors.size() - 1;
 
-        return result;
+        for (int i = 0; i <= degree; i++) {
+            value += factors.get(i) * pow(argument, i);
+        }
+
+        return setPrecision(value);
     }
 
     private static Double setPrecision(Double argument){
-        return Double.parseDouble(String.format("%.5f", argument));
+        return Double.parseDouble(String.format("%.3f", argument));
     }
 
 }
