@@ -1,25 +1,54 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.pow;
 
-public class CalculateRoots {
 
+/**
+ * It`s purpose is to find roots of polynomial equations
+ */
+class CalculateRoots {
 
-    public static void main(String[] args) {
-
-        int degree = getDegree();
-        List<Double> factors = getFactors(degree);
-
-        System.out.println("Roots: " + Arrays.toString(getRoots(factors).toArray()));
-
-
+    private static void printResult(Double result, Double input) {
+        System.out.println("f(" + input + ") = " + result);
     }
 
-    private static List<Double> getRoots(List<Double> factors) {
+    /**
+     * Evaluate the equation with a for loop
+     *
+     * @param factors  a list with our factors
+     * @param argument of the function
+     * @return value of the function
+     */
+    private static Double evaluate(List<Double> factors, Double argument) {
+
+        Double value = 0.0;
+        int degree = factors.size() - 1;
+
+        for (int i = 0; i <= degree; i++) {
+            value += factors.get(i) * pow(argument, i);
+        }
+
+        return value;
+    }
+
+    /**
+     * Round up Doubles to 5 decimal places
+     *
+     * @param argument what needs to be rounded up
+     * @return the result
+     */
+    private static Double setPrecision(Double argument) {
+        return Double.parseDouble(String.format("%.5f", argument));
+    }
+
+    /**
+     * @param factors a list with our factors
+     * @return list of roots
+     */
+    List<Double> getRoots(List<Double> factors) {
         Double result;
         int degree = factors.size() - 1;
         Double offset = 100.0;
@@ -36,7 +65,7 @@ public class CalculateRoots {
                 if (result == 0) {
                     rootsFound++;
                     roots.add(setPrecision(argument));
-                }                           // return setPrecision(argument);
+                }
 
                 if (change) {
                     argument += offset;
@@ -59,8 +88,12 @@ public class CalculateRoots {
         }
     }
 
-
-    private static int getDegree() {
+    /**
+     * Just take degree input from a user
+     *
+     * @return degree in Int
+     */
+    int getDegree() {
 
         System.out.println("Insert degree: ");
 
@@ -68,7 +101,13 @@ public class CalculateRoots {
         return degree.nextInt();
     }
 
-    private static List<Double> getFactors(int degree) {
+    /**
+     * Just take the factors from a user
+     *
+     * @param degree so we know how many inputs to take
+     * @return a list of factors
+     */
+    List<Double> getFactors(int degree) {
 
         System.out.println("Insert factors: ");
 
@@ -77,26 +116,6 @@ public class CalculateRoots {
             factors.add(new Scanner(System.in).nextDouble());
         }
         return factors;
-    }
-
-    private static void printResult(Double result, Double input) {
-        System.out.println("f(" + input + ") = " + result);
-    }
-
-    private static Double evaluate(List<Double> factors, Double argument) {
-
-        Double value = 0.0;
-        int degree = factors.size() - 1;
-
-        for (int i = 0; i <= degree; i++) {
-            value += factors.get(i) * pow(argument, i);
-        }
-
-        return setPrecision(value);
-    }
-
-    private static Double setPrecision(Double argument){
-        return Double.parseDouble(String.format("%.3f", argument));
     }
 
 }
