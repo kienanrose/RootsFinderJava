@@ -41,7 +41,7 @@ class CalculateRoots {
      * @return the result
      */
     private static Double setPrecision(Double argument) {
-        return Double.parseDouble(String.format("%.f", argument));
+        return Double.parseDouble(String.format("%.4f", argument));
     }
 
     private static Double resetOffset() {
