@@ -11,10 +11,6 @@ import static java.lang.Math.pow;
  */
 class CalculateRoots {
 
-    private static void printResult(Double value, Double argument) {
-        System.out.println("f(" + argument + ") = " + value);
-    }
-
     /**
      * Evaluate the equation with a for loop
      *
@@ -30,7 +26,6 @@ class CalculateRoots {
         for (int i = 0; i <= degree; i++) {
             value += factors.get(i) * pow(argument, i);
         }
-
         return value;
     }
 
@@ -41,11 +36,15 @@ class CalculateRoots {
      * @return the result
      */
     private static Double setPrecision(Double argument) {
-        return Double.parseDouble(String.format("%.4f", argument));
+        return Double.parseDouble(String.format("%.6f", argument));
     }
 
     private static Double resetOffset() {
         return 10.0;
+    }
+
+    private static void printResult(Double value, Double argument) {
+        System.out.println("f(" + argument + ") = " + value);
     }
 
     /**
@@ -82,7 +81,7 @@ class CalculateRoots {
 
                 temp = evaluate(factors, argument);
 
-            } while (abs(result) >= abs(temp));
+            } while (abs(result) > abs(temp));
 
             printResult(temp, argument);
             offset /= 2;
