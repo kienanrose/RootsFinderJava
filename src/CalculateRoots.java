@@ -11,8 +11,8 @@ import static java.lang.Math.pow;
  */
 class CalculateRoots {
 
-    private static void printResult(Double result, Double input) {
-        System.out.println("f(" + input + ") = " + result);
+    private static void printResult(Double value, Double argument) {
+        System.out.println("f(" + argument + ") = " + value);
     }
 
     /**
@@ -31,7 +31,7 @@ class CalculateRoots {
             value += factors.get(i) * pow(argument, i);
         }
 
-        return value;
+        return setPrecision(value);
     }
 
     /**
@@ -44,6 +44,10 @@ class CalculateRoots {
         return Double.parseDouble(String.format("%.5f", argument));
     }
 
+    private static Double resetOffset() {
+        return 10.0;
+    }
+
     /**
      * @param factors a list with our factors
      * @return list of roots
@@ -51,8 +55,8 @@ class CalculateRoots {
     List<Double> getRoots(List<Double> factors) {
         Double result;
         int degree = factors.size() - 1;
-        Double offset = 100.0;
-        Double argument = -10000.0;
+        Double offset = resetOffset();
+        Double argument = 0.0;
         List<Double> roots = new ArrayList<>();
         Double temp;
         boolean change = true;
@@ -62,9 +66,10 @@ class CalculateRoots {
             do {
                 result = evaluate(factors, argument);
 
-                if (result == 0) {
+                if (result == 0 && !roots.contains(argument)) {
                     rootsFound++;
                     roots.add(setPrecision(argument));
+                    offset = resetOffset();
                 }
 
                 if (change) {
@@ -112,7 +117,6 @@ class CalculateRoots {
     List<Double> getFactors(Double degree) {
 
         System.out.println("Insert factors: ");
-
         List<Double> factors = new ArrayList<>(degree.intValue());
 
         for (int i = 0; i <= degree; i++) {
@@ -123,8 +127,6 @@ class CalculateRoots {
                 return getFactors(degree);
             }
         }
-
         return factors;
     }
-
 }
