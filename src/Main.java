@@ -5,7 +5,6 @@ public class Main {
 
 
     public static void main(String[] args) {
-
         CalculateRoots calculateRoots = new CalculateRoots();
 
         Double degree = calculateRoots.getDegree();

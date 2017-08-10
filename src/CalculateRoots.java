@@ -31,7 +31,7 @@ class CalculateRoots {
             value += factors.get(i) * pow(argument, i);
         }
 
-        return setPrecision(value);
+        return value;
     }
 
     /**
@@ -41,7 +41,7 @@ class CalculateRoots {
      * @return the result
      */
     private static Double setPrecision(Double argument) {
-        return Double.parseDouble(String.format("%.5f", argument));
+        return Double.parseDouble(String.format("%.f", argument));
     }
 
     private static Double resetOffset() {
@@ -66,7 +66,7 @@ class CalculateRoots {
             do {
                 result = evaluate(factors, argument);
 
-                if (result == 0 && !roots.contains(argument)) {
+                if ((abs(result) < pow(10.0, -4.0)) && !roots.contains(argument)) {
                     rootsFound++;
                     roots.add(setPrecision(argument));
                     offset = resetOffset();
@@ -84,7 +84,7 @@ class CalculateRoots {
 
             } while (abs(result) >= abs(temp));
 
-            printResult(result, argument);
+            printResult(temp, argument);
             offset /= 2;
 
             change = !change;
