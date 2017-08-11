@@ -60,6 +60,24 @@ class CalculateRoots {
         }
     }
 
+    List<Double> hornersMethod (List<Double> factors, Double root){
+        int i = factors.size() - 1;
+        List<Double> resultOfDivision = new ArrayList<>();
+        Double temp = 0.0;
+        double di = i; //fuck java
+
+        resultOfDivision.add(di);
+        temp += root * factors.get(i) + factors.get(i - 1);
+        resultOfDivision.add(temp);
+
+        while(i > 1){
+            i--;
+            temp = root * temp + factors.get(i - 1);
+            resultOfDivision.add(temp);
+        }
+        return resultOfDivision;
+    }
+
     /**
      * Just take degree input from a user
      *
