@@ -11,41 +11,6 @@ import static java.lang.Math.pow;
  */
 class CalculateRoots {
 
-    /**
-     * Evaluate the equation with a for loop
-     *
-     * @param factors  a list with our factors
-     * @param argument of the function
-     * @return value of the function
-     */
-    private static Double evaluate(List<Double> factors, Double argument) {
-
-        Double value = 0.0;
-        int degree = factors.size() - 1;
-
-        for (int i = 0; i <= degree; i++) {
-            value += factors.get(i) * pow(argument, i);
-        }
-        return value;
-    }
-
-    /**
-     * Round up Doubles to 5 decimal places
-     *
-     * @param argument what needs to be rounded up
-     * @return the result
-     */
-    private static Double setPrecision(Double argument) {
-        return Double.parseDouble(String.format("%.6f", argument));
-    }
-
-    private static Double resetOffset() {
-        return 10.0;
-    }
-
-    private static void printResult(Double value, Double argument) {
-        System.out.println("f(" + argument + ") = " + value);
-    }
 
     /**
      * @param factors a list with our factors
@@ -65,11 +30,14 @@ class CalculateRoots {
             do {
                 result = evaluate(factors, argument);
 
-                if ((abs(result) < pow(10.0, -4.0)) && !roots.contains(argument)) {
+                if ((abs(result) < pow(10.0, -4.0)) && isArgumentNew(roots, argument)) {
                     rootsFound++;
                     roots.add(setPrecision(argument));
                     offset = resetOffset();
+                    printResult(result, argument);
                 }
+
+                if (rootsFound == degree) return roots;
 
                 if (change) {
                     argument += offset;
@@ -83,12 +51,12 @@ class CalculateRoots {
 
             } while (abs(result) > abs(temp));
 
-            printResult(temp, argument);
             offset /= 2;
+            if(offset < pow(10, -4)){
+                offset = resetOffset();
+            }
 
             change = !change;
-
-            if (rootsFound == degree) return roots;
         }
     }
 
@@ -128,4 +96,52 @@ class CalculateRoots {
         }
         return factors;
     }
+
+    /**
+     * Evaluate the equation with a for loop
+     *
+     * @param factors  a list with our factors
+     * @param argument of the function
+     * @return value of the function
+     */
+    private Double evaluate(List<Double> factors, Double argument) {
+
+        Double value = 0.0;
+        int degree = factors.size() - 1;
+
+        for (int i = 0; i <= degree; i++) {
+            value += factors.get(i) * pow(argument, i);
+        }
+        return value;
+    }
+
+    private boolean isArgumentNew(List<Double> list, Double argument){//roots argument
+        int temp = 0;
+        for(int i = 0; i <= list.size() - 1; i++){
+            if(abs(list.get(i) - argument) > pow(10, -2)){
+                temp++;
+            }
+        }
+        return temp == list.size();
+    }
+
+    private Double resetOffset() {
+        return 10.0;
+    }
+
+    /**
+     * Round up Doubles to 3 decimal places
+     *
+     * @param argument what needs to be rounded up
+     * @return the result
+     */
+    private static Double setPrecision(Double argument) {
+        return Double.parseDouble(String.format("%.4f", argument));
+    }
+
+    private static void printResult(Double value, Double argument) {
+        System.out.println("f(" + argument + ") = " + value);
+    }
+
+
 }
