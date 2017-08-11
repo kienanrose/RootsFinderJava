@@ -7,8 +7,6 @@ public class TestCases {
 
     public static void main(String[] args) {
 
-        TestCases testCases = new TestCases();
-
         List<Double> f_1 = new ArrayList<>(Arrays.asList(4.0, 8.0));
         List<Double> f_2 = new ArrayList<>(Arrays.asList(2.0, -3.0, 1.0));
         List<Double> f_3 = new ArrayList<>(Arrays.asList(18.0, -11.0, -8.0, 1.0));
