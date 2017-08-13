@@ -34,7 +34,7 @@ class CalculateRoots {
                     rootsFound++;
                     roots.add(setPrecision(argument));
                     offset = resetOffset();
-                    printResult(result, argument);
+//                    printResult(result, argument);
                     factors = hornersMethod(factors, argument);
                 }
 
@@ -53,7 +53,7 @@ class CalculateRoots {
             } while (abs(result) > abs(temp));
 
             offset /= 2;
-            if (offset < pow(10, -4)) {
+            if (offset < pow(10, -6)) {
                 offset = resetOffset();
             }
 
@@ -89,15 +89,8 @@ class CalculateRoots {
         for (int j = resultOfDivision.size() - 1; j >= 0; j--) {
             result.add(resultOfDivision.get(j));
         }
-
-        if (result.get(0) == 0.0) {
-            System.out.println("was a root");
-            result.remove(0);
-            return result;
-        } else {
-            System.out.println("was not a root");
-            return factors;
-        }
+        result.remove(0);
+        return result;
     }
 
 
@@ -130,12 +123,12 @@ class CalculateRoots {
      * @return the result
      */
     private static Double setPrecision(Double argument) {
-        return Double.parseDouble(String.format("%.4f", argument));
+        return Double.parseDouble(String.format("%.6f", argument));
     }
 
-    private static void printResult(Double value, Double argument) {
-        System.out.println("f(" + argument + ") = " + value);
-    }
+//    private static void printResult(Double value, Double argument) {
+//        System.out.println("f(" + argument + ") = " + value);
+//    }
 
 
 }
