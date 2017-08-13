@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -10,7 +11,6 @@ import static java.lang.Math.pow;
  * It`s purpose is to find roots of polynomial equations
  */
 class CalculateRoots {
-
 
     /**
      * @param factors a list with our factors
@@ -30,7 +30,7 @@ class CalculateRoots {
             do {
                 result = evaluate(factors, argument);
 
-                if ((abs(result) == 0.0)){//< pow(10.0, -4.0))){// && isArgumentNew(roots, argument)) {
+                if ((abs(result) == 0.0)) {
                     rootsFound++;
                     roots.add(setPrecision(argument));
                     offset = resetOffset();
@@ -53,7 +53,7 @@ class CalculateRoots {
             } while (abs(result) > abs(temp));
 
             offset /= 2;
-            if(offset < pow(10, -4)){
+            if (offset < pow(10, -4)) {
                 offset = resetOffset();
             }
 
@@ -61,7 +61,14 @@ class CalculateRoots {
         }
     }
 
-    List<Double> hornersMethod (List<Double> factors, Double root){
+    /**
+     * It executes the horners method on a list of Doubles
+     *
+     * @param factors input list
+     * @param root    input root
+     * @return result of horner's method
+     */
+    private List<Double> hornersMethod(List<Double> factors, Double root) {
         int i = factors.size() - 1;
         List<Double> resultOfDivision = new ArrayList<>();
         Double temp = 0.0;
@@ -71,7 +78,7 @@ class CalculateRoots {
         temp += root * factors.get(i) + factors.get(i - 1);
         resultOfDivision.add(temp);
 
-        while(i > 1){
+        while (i > 1) {
             i--;
             temp = root * temp + factors.get(i - 1);
             resultOfDivision.add(temp);
@@ -79,12 +86,11 @@ class CalculateRoots {
 
         // change order of resultOfDivision
         List<Double> result = new ArrayList<>();
-        for(int j = resultOfDivision.size() - 1; j >= 0; j--){
-
+        for (int j = resultOfDivision.size() - 1; j >= 0; j--) {
             result.add(resultOfDivision.get(j));
         }
 
-        if(result.get(0) == 0.0) {
+        if (result.get(0) == 0.0) {
             System.out.println("was a root");
             result.remove(0);
             return result;
@@ -94,42 +100,6 @@ class CalculateRoots {
         }
     }
 
-    /**
-     * Just take degree input from a user
-     *
-     * @return degree in Int
-     */
-    Double getDegree() {
-        System.out.println("Insert degree: ");
-        try {
-            return new Scanner(System.in).nextDouble();
-        } catch (Exception e) {
-            System.out.println("You need to insert numbers (duh)");
-            return getDegree();
-        }
-    }
-
-    /**
-     * Just take the factors from a user
-     *
-     * @param degree so we know how many inputs to take
-     * @return a list of factors
-     */
-    List<Double> getFactors(Double degree) {
-
-        System.out.println("Insert factors: ");
-        List<Double> factors = new ArrayList<>(degree.intValue());
-
-        for (int i = 0; i <= degree; i++) {
-            try {
-                factors.add(new Scanner(System.in).nextDouble());
-            } catch (Exception e) {
-                System.out.println("You need to insert numbers (duh)");
-                return getFactors(degree);
-            }
-        }
-        return factors;
-    }
 
     /**
      * Evaluate the equation with a for loop
@@ -148,18 +118,6 @@ class CalculateRoots {
         }
         return value;
     }
-
-    /*
-    private boolean isArgumentNew(List<Double> list, Double argument){//roots argument
-        int temp = 0;
-        for(int i = 0; i <= list.size() - 1; i++){
-            if(abs(list.get(i) - argument) > pow(10, -2)){
-                temp++;
-            }
-        }
-        return temp == list.size();
-    }
-    */
 
     private Double resetOffset() {
         return 10.0;
