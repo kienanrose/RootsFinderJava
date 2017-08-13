@@ -54,7 +54,7 @@ class CalculateRoots {
 
             offset /= 2;
             if (offset < pow(10, -6)) {
-                offset = resetOffset();
+                degree--;
             }
 
             change = !change;
