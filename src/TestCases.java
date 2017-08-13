@@ -18,10 +18,10 @@ public class TestCases {
         List<Double> r_3 = new ArrayList<>(Arrays.asList(1.0, 2.0, 9.0));
         List<Double> r_4 = new ArrayList<>(Arrays.asList(1.0, 2.0, 3.0, 4.0, 5.0, 6.0));
 
-        //test(f_1);
-        //test(f_2);
-        //test(f_3);
-        //test(f_4);
+        test(f_1);
+        test(f_2);
+        test(f_3);
+        test(f_4);
     }
 
     private static void test(List<Double> testCase) {

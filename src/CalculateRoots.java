@@ -30,11 +30,12 @@ class CalculateRoots {
             do {
                 result = evaluate(factors, argument);
 
-                if ((abs(result) < pow(10.0, -4.0)) && isArgumentNew(roots, argument)) {
+                if ((abs(result) == 0.0)){//< pow(10.0, -4.0))){// && isArgumentNew(roots, argument)) {
                     rootsFound++;
                     roots.add(setPrecision(argument));
                     offset = resetOffset();
                     printResult(result, argument);
+                    factors = hornersMethod(factors, argument);
                 }
 
                 if (rootsFound == degree) return roots;
@@ -64,7 +65,7 @@ class CalculateRoots {
         int i = factors.size() - 1;
         List<Double> resultOfDivision = new ArrayList<>();
         Double temp = 0.0;
-        double di = i; //fuck java
+        double di = factors.get(i); //fuck java
 
         resultOfDivision.add(di);
         temp += root * factors.get(i) + factors.get(i - 1);
@@ -75,7 +76,22 @@ class CalculateRoots {
             temp = root * temp + factors.get(i - 1);
             resultOfDivision.add(temp);
         }
-        return resultOfDivision;
+
+        // change order of resultOfDivision
+        List<Double> result = new ArrayList<>();
+        for(int j = resultOfDivision.size() - 1; j >= 0; j--){
+
+            result.add(resultOfDivision.get(j));
+        }
+
+        if(result.get(0) == 0.0) {
+            System.out.println("was a root");
+            result.remove(0);
+            return result;
+        } else {
+            System.out.println("was not a root");
+            return factors;
+        }
     }
 
     /**
@@ -133,6 +149,7 @@ class CalculateRoots {
         return value;
     }
 
+    /*
     private boolean isArgumentNew(List<Double> list, Double argument){//roots argument
         int temp = 0;
         for(int i = 0; i <= list.size() - 1; i++){
@@ -142,6 +159,7 @@ class CalculateRoots {
         }
         return temp == list.size();
     }
+    */
 
     private Double resetOffset() {
         return 10.0;
