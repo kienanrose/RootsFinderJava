@@ -1,7 +1,7 @@
+package com.korsak.rootsfinder;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.pow;
@@ -53,8 +53,18 @@ class CalculateRoots {
             } while (abs(result) > abs(temp));
 
             offset /= 2;
-            if (offset < pow(10, -6)) {
+            if (offset < pow(10, -8)) {
                 degree--;
+                //get derivative
+                factors = getDerivative(factors);
+                //check if its a local min or max then if it is, take second derivative and check whether it's a min or a max
+                boolean isMinOrMax = evaluate(factors, argument) < pow(10, -5);
+                if(isMinOrMax){
+                    factors = getDerivative(factors);
+                    if(evaluate(factors, argument) > 0) System.out.println("Local minimum in x = " + argument + "\ny = " + temp);
+                    else System.out.println("Local maximum in x = " + argument);
+                } else System.out.println("ja nie wiem");
+                offset = resetOffset();
             }
 
             change = !change;
@@ -123,12 +133,21 @@ class CalculateRoots {
      * @return the result
      */
     private static Double setPrecision(Double argument) {
-        return Double.parseDouble(String.format("%.6f", argument));
+        return Double.parseDouble(String.format("%.16f", argument));
     }
 
 //    private static void printResult(Double value, Double argument) {
 //        System.out.println("f(" + argument + ") = " + value);
 //    }
 
+    private static List<Double> getDerivative(List<Double> inputFunction){
+        List<Double> temp = new ArrayList<>();
+        Double s;
+        for(int i = 0; i < inputFunction.size() - 1; i++){
+            s=inputFunction.get(i + 1) * (i+1);
+            temp.add(s);
+        }
+        return temp;
+    }
 
 }
