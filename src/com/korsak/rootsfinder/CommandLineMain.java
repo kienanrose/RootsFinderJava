@@ -13,7 +13,6 @@ public class CommandLineMain {
         Double degree = commandLineMain.getDegree();
         List<Double> factors = commandLineMain.getFactors(degree);
         //System.out.println("Roots: " + Arrays.toString(calculateRoots.getRoots(factors).toArray()));
-        SleepSort sleepSort = new SleepSort(factors);
     }
 
     /**
