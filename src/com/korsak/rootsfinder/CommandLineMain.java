@@ -1,6 +1,7 @@
 package com.korsak.rootsfinder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -12,7 +13,7 @@ public class CommandLineMain {
         CalculateRoots calculateRoots = new CalculateRoots();
         Double degree = commandLineMain.getDegree();
         List<Double> factors = commandLineMain.getFactors(degree);
-        //System.out.println("Roots: " + Arrays.toString(calculateRoots.getRoots(factors).toArray()));
+        System.out.println("Roots: " + Arrays.toString(calculateRoots.getRoots(factors).toArray()));
     }
 
     /**

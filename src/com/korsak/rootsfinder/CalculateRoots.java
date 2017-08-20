@@ -1,7 +1,6 @@
 package com.korsak.rootsfinder;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static java.lang.Math.abs;
@@ -21,22 +20,64 @@ class CalculateRoots {
         int degree = factors.size() - 1;
         List<Double> roots = new ArrayList<>();
         int rootsFound = 0;
-        List<Double> values = new ArrayList<>();
-        Double value;
+        Double value, temp;
 
 
         // check for roots in integers [-1000,1000]
         for (Double i = -1000.0; i <= 1000.0; i++) {
             value = evaluate(factors, i);
-            values.add(value);
             if (value == 0.0) {
                 rootsFound++;
                 roots.add(i);
+                //factors = hornersMethod(factors, i);
+            }
+
+            temp = evaluate(factors, i + 1);
+            if (temp * value < 0) {
+                //root is somewhere in here
+                System.out.println("yo theres a root between " + i + " and " + (i + 1));
+                roots.add(tep(factors, rootsFound, degree, i));
+                if(roots.size() == degree) return roots;
             }
         }
-
         return roots;
     }
+
+    private Double tep(List<Double> factors, int rootsFound, int degree, Double argument) {
+        Double result, offset, temp;
+        boolean change = true;
+        offset = 0.5;
+        while (true) {
+            do {
+                result = evaluate(factors, argument);
+
+                if ((abs(result) == 0.0)) {
+                    rootsFound++;
+                }
+
+                if (rootsFound == degree) return argument;
+
+                if (change) {
+                    argument += offset;
+                    argument = setPrecision(argument);
+                } else {
+                    argument -= offset;
+                    argument = setPrecision(argument);
+                }
+
+                temp = evaluate(factors, argument);
+
+            } while (abs(result) > abs(temp));
+
+            offset /= 2;
+
+            if (offset < pow(10, -8)) {
+                return argument;
+            }
+            change = !change;
+        }
+    }
+
 
     /**
      * It executes the horners method on a list of Doubles
@@ -95,12 +136,7 @@ class CalculateRoots {
      * @param argument what needs to be rounded up
      * @return the result
      */
-    private static Double setPrecision(Double argument) {
-        return Double.parseDouble(String.format("%.16f", argument));
+    private Double setPrecision(Double argument) {
+        return Double.parseDouble(String.format("%.6f", argument));
     }
-
-    private static void printResult(Double argument, Double value) {
-        System.out.println("f(" + argument + ") = " + value);
-    }
-
 }
