@@ -1,10 +1,14 @@
 package com.korsak.rootsfinder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
 
 
 /**
@@ -16,37 +20,93 @@ class CalculateRoots {
      * @param factors a list with our factors
      * @return list of roots
      */
-    List<Double> getRoots(List<Double> factors) {
+    List<Root> getRoots(List<Double> factors) {
         int degree = factors.size() - 1;
-        List<Double> roots = new ArrayList<>();
+        List<Root> roots = new ArrayList<>();
+        switch (degree){
+            case 0:
+                return new ArrayList<>();
+            case 1:
+                return new ArrayList<>(Collections.singletonList(linear(factors)));
+            case 2:
+                return quadratic(factors);
+        }
+
         int rootsFound = 0;
         Double value, temp;
-
+        Root root = new Root();
 
         // check for roots in integers [-1000,1000]
-        for (Double i = -1000.0; i <= 1000.0; i++) {
+        for (Double i = -500.0; i <= 500.0; i += 0.01) {
             value = evaluate(factors, i);
             if (value == 0.0) {
                 rootsFound++;
-                roots.add(i);
-                //factors = hornersMethod(factors, i);
+                root = new Root(setPrecision(i), 0.0);
+                roots.add(root);
+                if(root.getImaginaryPart() == 0.0) {
+                    factors = hornersMethod(factors, root.getRealPart());
+                }
+                root = new Root();
+                i--;
             }
 
-            temp = evaluate(factors, i + 1);
+            temp = evaluate(factors, i + 0.01);
             if (temp * value < 0) {
-                //root is somewhere in here
-                System.out.println("yo theres a root between " + i + " and " + (i + 1));
-                roots.add(tep(factors, rootsFound, degree, i));
-                if(roots.size() == degree) return roots;
+                // a root is somewhere in here
+                root.setRealPart(setPrecision(newtonsMethod(factors, rootsFound, degree, i)));
+                roots.add(root);
+                if(root.getImaginaryPart() == 0.0 ) {
+                    factors = hornersMethod(factors, root.getRealPart());
+                }
+                root = new Root();
+                i--;
+
+                if (roots.size() == degree) return roots;
             }
         }
         return roots;
     }
 
-    private Double tep(List<Double> factors, int rootsFound, int degree, Double argument) {
+    private Root linear(List<Double> factors){
+        return new Root(((-factors.get(0)) / (factors.get(1))), 0.0);
+    }
+
+    private List<Root> quadratic(List<Double> factors) {
+        Root root_1 = new Root();
+        Root root_2 = new Root();
+        Double x_1;
+        Double x_2;
+        Double y_1;
+        Double y_2;
+
+        Double delta = pow(factors.get(1), 2) - 4 * factors.get(0) * factors.get(2);
+        Double denominator = 2 * factors.get(2);
+        if(delta >= 0) {
+            x_1 = ((-factors.get(1) - sqrt(delta)) /  denominator);
+            x_2 = ((-factors.get(1) + sqrt(delta)) / denominator);
+
+            root_1.setRealPart(x_1);
+            root_2.setRealPart(x_2);
+        } else {
+            delta = - delta;
+            x_1 = ((-factors.get(1))/denominator);
+            x_2 = x_1;
+            root_1.setRealPart(x_1);
+            root_2.setRealPart(x_2);
+            y_1 = (-sqrt(delta)/denominator);
+            y_2 = -y_1;
+            root_1.setImaginaryPart(y_1);
+            root_2.setImaginaryPart(y_2);
+        }
+
+        return new ArrayList<>(Arrays.asList(root_1, root_2));
+    }
+
+
+    private Double newtonsMethod(List<Double> factors, int rootsFound, int degree, Double argument) {
         Double result, offset, temp;
         boolean change = true;
-        offset = 0.5;
+        offset = 0.005;
         while (true) {
             do {
                 result = evaluate(factors, argument);
@@ -57,13 +117,8 @@ class CalculateRoots {
 
                 if (rootsFound == degree) return argument;
 
-                if (change) {
-                    argument += offset;
-                    argument = setPrecision(argument);
-                } else {
-                    argument -= offset;
-                    argument = setPrecision(argument);
-                }
+                if (change) argument += offset;
+                else argument -= offset;
 
                 temp = evaluate(factors, argument);
 
@@ -111,7 +166,6 @@ class CalculateRoots {
         return result;
     }
 
-
     /**
      * Evaluate the equation with a for loop
      *
@@ -137,6 +191,6 @@ class CalculateRoots {
      * @return the result
      */
     private Double setPrecision(Double argument) {
-        return Double.parseDouble(String.format("%.6f", argument));
+        return Double.parseDouble(String.format(Locale.US, "%.3f", argument));
     }
 }

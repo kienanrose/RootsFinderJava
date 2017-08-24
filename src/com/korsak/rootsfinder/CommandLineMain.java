@@ -10,10 +10,12 @@ public class CommandLineMain {
     public static void main(String[] args) {
 
         CommandLineMain commandLineMain = new CommandLineMain();
-        CalculateRoots calculateRoots = new CalculateRoots();
+        com.korsak.rootsfinder.CalculateRoots calculateRoots = new com.korsak.rootsfinder.CalculateRoots();
         Double degree = commandLineMain.getDegree();
         List<Double> factors = commandLineMain.getFactors(degree);
+        long startTime = System.currentTimeMillis();
         System.out.println("Roots: " + Arrays.toString(calculateRoots.getRoots(factors).toArray()));
+        System.out.println(System.currentTimeMillis() - startTime);
     }
 
     /**
