@@ -25,19 +25,19 @@ class Root {
         }
     }
 
-    public Double getImaginaryPart() {
+    Double getImaginaryPart() {
         return imaginaryPart;
     }
 
-    public void setImaginaryPart(Double imaginaryPart) {
+    void setImaginaryPart(Double imaginaryPart) {
         this.imaginaryPart = imaginaryPart;
     }
 
-    public Double getRealPart() {
+    Double getRealPart() {
         return realPart;
     }
 
-    public void setRealPart(Double realPart) {
+    void setRealPart(Double realPart) {
         this.realPart = realPart;
     }
 }
