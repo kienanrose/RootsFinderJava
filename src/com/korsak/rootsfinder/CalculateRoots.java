@@ -41,7 +41,7 @@ class CalculateRoots {
             value = evaluate(factors, i);
             if (value == 0.0) {
                 rootsFound++;
-                root = new Root(setPrecision(i), 0.0);
+                root.setRealPart(setPrecision(i));
                 roots.add(root);
                 if(root.getImaginaryPart() == 0.0) {
                     factors = hornersMethod(factors, root.getRealPart());
@@ -55,6 +55,9 @@ class CalculateRoots {
                 // a root is somewhere in here
                 root.setRealPart(setPrecision(newtonsMethod(factors, rootsFound, degree, i)));
                 roots.add(root);
+                /*
+                extend horners to complex numbers
+                 */
                 if(root.getImaginaryPart() == 0.0 ) {
                     factors = hornersMethod(factors, root.getRealPart());
                 }
@@ -136,6 +139,7 @@ class CalculateRoots {
 
     /**
      * It executes the horners method on a list of Doubles
+     * TODO: extend it to complex numbers
      *
      * @param factors input list
      * @param root    input root

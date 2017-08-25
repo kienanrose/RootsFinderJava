@@ -16,6 +16,7 @@ public class TestCases {
         //List<Double> f_6 = new ArrayList<>(Arrays.asList(-996004.0, 0.0, 1.0));
         List<Double> f_7 = new ArrayList<>(Arrays.asList(0.0, 0.0, 0.0, 0.0, 6.5, -5.1, 1.0));
         List<Double> f_8 = new ArrayList<>(Arrays.asList(4.0, 0.0, 1.0));
+        List<Double> f_9 = new ArrayList<>(Arrays.asList(5.0, -4.0, 1.0));
 
 
         test(f_1, 1);
@@ -26,6 +27,7 @@ public class TestCases {
         //test(f_6, 6);
         test(f_7, 7);
         test(f_8, 8);
+        test(f_9, 9);
     }
 
     private static void test(List<Double> testCase, int test) {

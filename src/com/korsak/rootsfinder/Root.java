@@ -1,5 +1,7 @@
 package com.korsak.rootsfinder;
 
+import java.util.List;
+
 class Root {
 
     private Double realPart;
@@ -39,5 +41,19 @@ class Root {
 
     void setRealPart(Double realPart) {
         this.realPart = realPart;
+    }
+
+    Root multiply(List<Root> products) {
+        /*
+        TODO this
+         */
+        return null;
+    }
+
+    Root add(List<Root> products) {
+        /*
+        TODO this
+         */
+        return null;
     }
 }
