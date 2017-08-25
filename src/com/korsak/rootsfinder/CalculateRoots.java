@@ -1,14 +1,8 @@
 package com.korsak.rootsfinder;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
-import static java.lang.Math.abs;
-import static java.lang.Math.pow;
-import static java.lang.Math.sqrt;
+import static java.lang.Math.*;
 
 
 /**
@@ -20,9 +14,9 @@ class CalculateRoots {
      * @param factors a list with our factors
      * @return list of roots
      */
-    List<Root> getRoots(List<Double> factors) {
+    List<Complex> getRoots(List<Double> factors) {
         int degree = factors.size() - 1;
-        List<Root> roots = new ArrayList<>();
+        List<Complex> roots = new ArrayList<>();
         switch (degree){
             case 0:
                 return new ArrayList<>();
@@ -34,7 +28,7 @@ class CalculateRoots {
 
         int rootsFound = 0;
         Double value, temp;
-        Root root = new Root();
+        Complex root = new Complex();
 
         // check for roots in integers [-1000,1000]
         for (Double i = -500.0; i <= 500.0; i += 0.01) {
@@ -44,24 +38,24 @@ class CalculateRoots {
                 root.setRealPart(setPrecision(i));
                 roots.add(root);
                 if(root.getImaginaryPart() == 0.0) {
-                    factors = hornersMethod(factors, root.getRealPart());
+                    factors = hornersMethod(factors, root);
                 }
-                root = new Root();
+                root = new Complex();
                 i--;
             }
 
             temp = evaluate(factors, i + 0.01);
             if (temp * value < 0) {
-                // a root is somewhere in here
+                // a  is somewhere in here
                 root.setRealPart(setPrecision(newtonsMethod(factors, rootsFound, degree, i)));
                 roots.add(root);
                 /*
-                extend horners to complex numbers
+                extend horners to  numbers
                  */
                 if(root.getImaginaryPart() == 0.0 ) {
-                    factors = hornersMethod(factors, root.getRealPart());
+                    factors = hornersMethod(factors, root);
                 }
-                root = new Root();
+                root = new Complex();
                 i--;
 
                 if (roots.size() == degree) return roots;
@@ -70,13 +64,13 @@ class CalculateRoots {
         return roots;
     }
 
-    private Root linear(List<Double> factors){
-        return new Root(((-factors.get(0)) / (factors.get(1))), 0.0);
+    private Complex linear(List<Double> factors) {
+        return new Complex(((-factors.get(0)) / (factors.get(1))), 0.0);
     }
 
-    private List<Root> quadratic(List<Double> factors) {
-        Root root_1 = new Root();
-        Root root_2 = new Root();
+    private List<Complex> quadratic(List<Double> factors) {
+        Complex complex_1 = new Complex();
+        Complex complex_2 = new Complex();
         Double x_1;
         Double x_2;
         Double y_1;
@@ -88,21 +82,21 @@ class CalculateRoots {
             x_1 = ((-factors.get(1) - sqrt(delta)) /  denominator);
             x_2 = ((-factors.get(1) + sqrt(delta)) / denominator);
 
-            root_1.setRealPart(x_1);
-            root_2.setRealPart(x_2);
+            complex_1.setRealPart(x_1);
+            complex_2.setRealPart(x_2);
         } else {
             delta = - delta;
             x_1 = ((-factors.get(1))/denominator);
             x_2 = x_1;
-            root_1.setRealPart(x_1);
-            root_2.setRealPart(x_2);
+            complex_1.setRealPart(x_1);
+            complex_2.setRealPart(x_2);
             y_1 = (-sqrt(delta)/denominator);
             y_2 = -y_1;
-            root_1.setImaginaryPart(y_1);
-            root_2.setImaginaryPart(y_2);
+            complex_1.setImaginaryPart(y_1);
+            complex_2.setImaginaryPart(y_2);
         }
 
-        return new ArrayList<>(Arrays.asList(root_1, root_2));
+        return new ArrayList<>(Arrays.asList(complex_1, complex_2));
     }
 
 
@@ -145,24 +139,27 @@ class CalculateRoots {
      * @param root    input root
      * @return result of horner's method
      */
-    private List<Double> hornersMethod(List<Double> factors, Double root) {
+    private List<Complex> hornersMethod(List<Complex> factors, Complex root) {
         int i = factors.size() - 1;
-        List<Double> resultOfDivision = new ArrayList<>();
-        Double temp = 0.0;
-        double di = factors.get(i); //fuck java
+        List<Complex> resultOfDivision = new ArrayList<>();
+        Complex temp = new Complex();
 
-        resultOfDivision.add(di);
-        temp += root * factors.get(i) + factors.get(i - 1);
+        resultOfDivision.add(factors.get(i));
+
+        temp.multiply(Arrays.asList(root, factors.get(i)))
+                .add(Collections.singletonList(factors.get(i - 1)));
+
         resultOfDivision.add(temp);
+
 
         while (i > 1) {
             i--;
-            temp = root * temp + factors.get(i - 1);
+            temp.multiply(Arrays.asList(root, temp)).add(Collections.singletonList(factors.get(i - 1)));
             resultOfDivision.add(temp);
         }
 
         // change order of resultOfDivision
-        List<Double> result = new ArrayList<>();
+        List<Complex> result = new ArrayList<>();
         for (int j = resultOfDivision.size() - 1; j >= 0; j--) {
             result.add(resultOfDivision.get(j));
         }

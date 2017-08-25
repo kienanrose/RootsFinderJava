@@ -33,17 +33,17 @@ public class TestCases {
     private static void test(List<Double> testCase, int test) {
         com.korsak.rootsfinder.CalculateRoots calculateRoots = new com.korsak.rootsfinder.CalculateRoots();
         long startTime = System.currentTimeMillis();
-        List<Root> results = calculateRoots.getRoots(testCase);
+        List<Complex> results = calculateRoots.getRoots(testCase);
         System.out.println("Test(" + test + ") " + (System.currentTimeMillis() - startTime) + " ms (execution time)");
 
-        for (Root root : results) {
+        for (Complex complex : results) {
             System.out.print("x = ");
-            if(root.getImaginaryPart() == 0.0){
-                System.out.print(root.getRealPart());
-            } else if(root.getRealPart() == 0.0){
-                System.out.print(root.getImaginaryPart() + " i");
+            if (complex.getImaginaryPart() == 0.0) {
+                System.out.print(complex.getRealPart());
+            } else if (complex.getRealPart() == 0.0) {
+                System.out.print(complex.getImaginaryPart() + " i");
             } else {
-                System.out.print(root.getRealPart() + " + " + root.getImaginaryPart() + " i");
+                System.out.print(complex.getRealPart() + " + " + complex.getImaginaryPart() + " i");
             }
             System.out.println();
         }
