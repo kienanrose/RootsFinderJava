@@ -1,6 +1,5 @@
 package com.korsak.rootsfinder;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -8,15 +7,24 @@ public class TestCases {
 
     public static void main(String[] args) {
 
-        List<Double> f_1 = new ArrayList<>(Arrays.asList(4.0, 8.0));
-        List<Double> f_2 = new ArrayList<>(Arrays.asList(2.0, -3.0, 1.0));
-        List<Double> f_3 = new ArrayList<>(Arrays.asList(18.0, -11.0, -8.0, 1.0));
-        List<Double> f_4 = new ArrayList<>(Arrays.asList(720.0, -1764.0, 1624.0, -735.0, 175.0, -21.0, 1.0));
-        List<Double> f_5 = new ArrayList<>(Arrays.asList(58.275, -14.135, -6.17, 1.0));
-        //List<Double> f_6 = new ArrayList<>(Arrays.asList(-996004.0, 0.0, 1.0));
-        List<Double> f_7 = new ArrayList<>(Arrays.asList(0.0, 0.0, 0.0, 0.0, 6.5, -5.1, 1.0));
-        List<Double> f_8 = new ArrayList<>(Arrays.asList(4.0, 0.0, 1.0));
-        List<Double> f_9 = new ArrayList<>(Arrays.asList(5.0, -4.0, 1.0));
+        List<Complex> f_1 = Arrays.asList(new Complex(4.0, true), new Complex(8.0, true));
+        List<Complex> f_2 = Arrays.asList(new Complex(2.0, true), new Complex(-3.0, true),
+                new Complex(1.0, true));
+        List<Complex> f_3 = Arrays.asList(new Complex(18.0, true), new Complex(-11.0, true),
+                new Complex(-8.0, true), new Complex(1.0, true));
+        List<Complex> f_4 = Arrays.asList(new Complex(720.0, true), new Complex(-1764.0, true),
+                new Complex(1624.0, true), new Complex(-735.0, true), new Complex(175.0, true),
+                new Complex(-21.0, true), new Complex(1.0, true));
+
+        List<Complex> f_5 = Arrays.asList(new Complex(58.275, true), new Complex(-14.135, true),
+                new Complex(-6.17, true), new Complex(1.0, true));
+        List<Complex> f_6 = Arrays.asList(new Complex(), new Complex(), new Complex(), new Complex(),
+                new Complex(6.5, true), new Complex(-5.1, true), new Complex(1.0, true));
+        List<Complex> f_7 = Arrays.asList(new Complex(4.0, true), new Complex(), new Complex(1.0, true));
+        List<Complex> f_8 = Arrays.asList(new Complex(5.0, true), new Complex(-4.0, true), new Complex(1.0, true));
+        List<Complex> f_9 = Arrays.asList(new Complex(168.0, true), new Complex(4.0, true), new Complex(-95.0, true),
+                new Complex(55.0, true), new Complex(-13.0, true), new Complex(1.0, true));
+
 
 
         test(f_1, 1);
@@ -24,13 +32,13 @@ public class TestCases {
         test(f_3, 3);
         test(f_4, 4);
         test(f_5, 5);
-        //test(f_6, 6);
+        test(f_6, 6);
         test(f_7, 7);
         test(f_8, 8);
         test(f_9, 9);
     }
 
-    private static void test(List<Double> testCase, int test) {
+    private static void test(List<Complex> testCase, int test) {
         com.korsak.rootsfinder.CalculateRoots calculateRoots = new com.korsak.rootsfinder.CalculateRoots();
         long startTime = System.currentTimeMillis();
         List<Complex> results = calculateRoots.getRoots(testCase);

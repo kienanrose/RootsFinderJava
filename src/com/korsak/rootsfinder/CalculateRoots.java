@@ -14,7 +14,7 @@ class CalculateRoots {
      * @param factors a list with our factors
      * @return list of roots
      */
-    List<Complex> getRoots(List<Double> factors) {
+    List<Complex> getRoots(List<Complex> factors) {
         int degree = factors.size() - 1;
         List<Complex> roots = new ArrayList<>();
         switch (degree){
@@ -37,11 +37,15 @@ class CalculateRoots {
                 rootsFound++;
                 root.setRealPart(setPrecision(i));
                 roots.add(root);
-                if(root.getImaginaryPart() == 0.0) {
-                    factors = hornersMethod(factors, root);
-                }
+                factors = hornersMethod(factors, root);
+                degree--;
                 root = new Complex();
                 i--;
+
+                if (degree == 2) {
+                    roots.addAll(quadratic(factors));
+                    return roots;
+                }
             }
 
             temp = evaluate(factors, i + 0.01);
@@ -49,26 +53,26 @@ class CalculateRoots {
                 // a  is somewhere in here
                 root.setRealPart(setPrecision(newtonsMethod(factors, rootsFound, degree, i)));
                 roots.add(root);
-                /*
-                extend horners to  numbers
-                 */
-                if(root.getImaginaryPart() == 0.0 ) {
-                    factors = hornersMethod(factors, root);
-                }
+                factors = hornersMethod(factors, root);
                 root = new Complex();
                 i--;
+                degree--;
+                if (degree == 2) {
+                    roots.addAll(quadratic(factors));
+                    return roots;
+                }
 
-                if (roots.size() == degree) return roots;
+                //if (roots.size() == degree) return roots;
             }
         }
         return roots;
     }
 
-    private Complex linear(List<Double> factors) {
-        return new Complex(((-factors.get(0)) / (factors.get(1))), 0.0);
+    private Complex linear(List<Complex> factors) {
+        return new Complex(((-factors.get(0).getRealPart()) / (factors.get(1).getRealPart())), true);
     }
 
-    private List<Complex> quadratic(List<Double> factors) {
+    private List<Complex> quadratic(List<Complex> factors) {
         Complex complex_1 = new Complex();
         Complex complex_2 = new Complex();
         Double x_1;
@@ -76,17 +80,17 @@ class CalculateRoots {
         Double y_1;
         Double y_2;
 
-        Double delta = pow(factors.get(1), 2) - 4 * factors.get(0) * factors.get(2);
-        Double denominator = 2 * factors.get(2);
+        Double delta = pow(factors.get(1).getRealPart(), 2) - 4 * factors.get(0).getRealPart() * factors.get(2).getRealPart();
+        Double denominator = 2 * factors.get(2).getRealPart();
         if(delta >= 0) {
-            x_1 = ((-factors.get(1) - sqrt(delta)) /  denominator);
-            x_2 = ((-factors.get(1) + sqrt(delta)) / denominator);
+            x_1 = ((-factors.get(1).getRealPart() - sqrt(delta)) / denominator);
+            x_2 = ((-factors.get(1).getRealPart() + sqrt(delta)) / denominator);
 
             complex_1.setRealPart(x_1);
             complex_2.setRealPart(x_2);
         } else {
             delta = - delta;
-            x_1 = ((-factors.get(1))/denominator);
+            x_1 = ((-factors.get(1).getRealPart()) / denominator);
             x_2 = x_1;
             complex_1.setRealPart(x_1);
             complex_2.setRealPart(x_2);
@@ -100,7 +104,7 @@ class CalculateRoots {
     }
 
 
-    private Double newtonsMethod(List<Double> factors, int rootsFound, int degree, Double argument) {
+    private Double newtonsMethod(List<Complex> factors, int rootsFound, int degree, Double argument) {
         Double result, offset, temp;
         boolean change = true;
         offset = 0.005;
@@ -146,15 +150,14 @@ class CalculateRoots {
 
         resultOfDivision.add(factors.get(i));
 
-        temp.multiply(Arrays.asList(root, factors.get(i)))
-                .add(Collections.singletonList(factors.get(i - 1)));
+        temp = temp.multiply(Arrays.asList(root, factors.get(i))).add(Collections.singletonList(factors.get(i - 1)));
 
         resultOfDivision.add(temp);
 
 
         while (i > 1) {
             i--;
-            temp.multiply(Arrays.asList(root, temp)).add(Collections.singletonList(factors.get(i - 1)));
+            temp = temp.multiply(Arrays.asList(root, temp)).add(Collections.singletonList(factors.get(i - 1)));
             resultOfDivision.add(temp);
         }
 
@@ -174,13 +177,13 @@ class CalculateRoots {
      * @param argument of the function
      * @return value of the function
      */
-    private Double evaluate(List<Double> factors, Double argument) {
+    private Double evaluate(List<Complex> factors, Double argument) {
 
         Double value = 0.0;
         int degree = factors.size() - 1;
 
         for (int i = 0; i <= degree; i++) {
-            value += factors.get(i) * pow(argument, i);
+            value += factors.get(i).getRealPart() * pow(argument, i);
         }
         return value;
     }

@@ -65,8 +65,8 @@ class Complex {
      * @return product of multiplication
      */
     Complex multiply(List<Complex> factors) {
-        Double realPart = this.realPart;
-        Double imaginaryPart = this.imaginaryPart;
+        Double realPart = 1.0;
+        Double imaginaryPart = 1.0;
 
         for (Complex product : factors) {
             realPart *= product.getRealPart();
