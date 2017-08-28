@@ -11,7 +11,7 @@ class Complex {
     /**
      * Complex has both real and imaginary parts
      *
-     * @param realPart a real number
+     * @param realPart      a real number
      * @param imaginaryPart an imaginary number
      */
     private Complex(Double realPart, Double imaginaryPart) {
@@ -44,7 +44,7 @@ class Complex {
     }
 
     Double getImaginaryPart() {
-        return imaginaryPart;
+        return this.imaginaryPart;
     }
 
     void setImaginaryPart(Double imaginaryPart) {
@@ -52,7 +52,7 @@ class Complex {
     }
 
     Double getRealPart() {
-        return realPart;
+        return this.realPart;
     }
 
     void setRealPart(Double realPart) {
@@ -90,8 +90,25 @@ class Complex {
         return new Complex(realPart, imaginaryPart);
     }
 
+    /**
+     * The module of a given complex number
+     *
+     * @return a module of a given Complex
+     */
     Double module(Complex argument) {
         //sqrt ( (re)^2 + (im)^2 )
         return sqrt(pow(argument.getRealPart(), 2) + pow(argument.getImaginaryPart(), 2));
+    }
+
+    /**
+     * The square of the current complex number.
+     *
+     * @return a Complex which is the square of the current complex number.
+     */
+
+    public Complex square() {
+        Double real = this.realPart * this.realPart - this.imaginaryPart * this.imaginaryPart;
+        Double imaginary = 2 * this.realPart * this.imaginaryPart;
+        return new Complex(real, imaginary);
     }
 }
