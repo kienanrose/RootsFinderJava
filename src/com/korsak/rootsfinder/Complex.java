@@ -1,6 +1,7 @@
 package com.korsak.rootsfinder;
 
-import java.util.List;
+import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
 
 class Complex {
 
@@ -10,10 +11,10 @@ class Complex {
     /**
      * Complex has both real and imaginary parts
      *
-     * @param realPart
-     * @param imaginaryPart
+     * @param realPart a real number
+     * @param imaginaryPart an imaginary number
      */
-    Complex(Double realPart, Double imaginaryPart) {
+    private Complex(Double realPart, Double imaginaryPart) {
         this.realPart = realPart;
         this.imaginaryPart = imaginaryPart;
     }
@@ -61,10 +62,10 @@ class Complex {
     /**
      * Get a product of a multiplication
      *
-     * @param factors a list of your factors
+     * @param factors a container of Copmlex objects
      * @return product of multiplication
      */
-    Complex multiply(List<Complex> factors) {
+    Complex multiply(Complex... factors) {
         Double realPart = 1.0;
         Double imaginaryPart = 1.0;
 
@@ -76,17 +77,21 @@ class Complex {
     }
 
     /**
-     * @param products
-     * @return
+     * @param products a container of Complex objects
+     * @return a result of adding products
      */
-    Complex add(List<Complex> products) {
+    Complex add(Complex... products) {
         Double realPart = this.realPart;
         Double imaginaryPart = this.imaginaryPart;
-
         for (Complex product : products) {
             realPart += product.getRealPart();
             imaginaryPart += product.getImaginaryPart();
         }
         return new Complex(realPart, imaginaryPart);
+    }
+
+    Double module(Complex argument) {
+        //sqrt ( (re)^2 + (im)^2 )
+        return sqrt(pow(argument.getRealPart(), 2) + pow(argument.getImaginaryPart(), 2));
     }
 }

@@ -17,7 +17,7 @@ class CalculateRoots {
     List<Complex> getRoots(List<Complex> factors) {
         int degree = factors.size() - 1;
         List<Complex> roots = new ArrayList<>();
-        switch (degree){
+        switch (degree) {
             case 0:
                 return new ArrayList<>();
             case 1:
@@ -82,25 +82,33 @@ class CalculateRoots {
 
         Double delta = pow(factors.get(1).getRealPart(), 2) - 4 * factors.get(0).getRealPart() * factors.get(2).getRealPart();
         Double denominator = 2 * factors.get(2).getRealPart();
-        if(delta >= 0) {
+        if (delta >= 0) {
             x_1 = ((-factors.get(1).getRealPart() - sqrt(delta)) / denominator);
             x_2 = ((-factors.get(1).getRealPart() + sqrt(delta)) / denominator);
 
             complex_1.setRealPart(x_1);
             complex_2.setRealPart(x_2);
         } else {
-            delta = - delta;
+            delta = -delta;
             x_1 = ((-factors.get(1).getRealPart()) / denominator);
             x_2 = x_1;
             complex_1.setRealPart(x_1);
             complex_2.setRealPart(x_2);
-            y_1 = (-sqrt(delta)/denominator);
+            y_1 = (-sqrt(delta) / denominator);
             y_2 = -y_1;
             complex_1.setImaginaryPart(y_1);
             complex_2.setImaginaryPart(y_2);
         }
 
-        return new ArrayList<>(Arrays.asList(complex_1, complex_2));
+        return Arrays.asList(complex_1, complex_2);
+    }
+
+    private List<Complex> cubic(List<Complex> factors) {
+        return null;
+    }
+
+    private List<Complex> quartic(List<Complex> factors) {
+        return null;
     }
 
 
@@ -150,14 +158,14 @@ class CalculateRoots {
 
         resultOfDivision.add(factors.get(i));
 
-        temp = temp.multiply(Arrays.asList(root, factors.get(i))).add(Collections.singletonList(factors.get(i - 1)));
+        temp = temp.multiply(root, factors.get(i)).add(factors.get(i - 1));
 
         resultOfDivision.add(temp);
 
 
         while (i > 1) {
             i--;
-            temp = temp.multiply(Arrays.asList(root, temp)).add(Collections.singletonList(factors.get(i - 1)));
+            temp = temp.multiply(root, temp).add(factors.get(i - 1));
             resultOfDivision.add(temp);
         }
 
