@@ -100,6 +100,26 @@ class Complex {
         return sqrt(pow(argument.getRealPart(), 2) + pow(argument.getImaginaryPart(), 2));
     }
 
+    static long binomial(int n, int k) {
+        if (k > n - k)
+            k = n - k;
+
+        long b = 1;
+        for (int i = 1, m = n; i <= k; i++, m--)
+            b = b * m / i;
+        return b;
+    }
+
+    static Complex productOfSum(Complex argument, int degree) {
+        Double realPart = 0.0;
+        Double imaginaryPart = 0.0;
+
+        for (int k = 0; k <= degree; k++) {
+
+        }
+        return null;
+    }
+
     /**
      * The square of the current complex number.
      *

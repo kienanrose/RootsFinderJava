@@ -202,6 +202,29 @@ class CalculateRoots {
         return value;
     }
 
+    private Complex evaluate(List<Complex> factors, Complex argument) {
+        Complex temp = new Complex();
+        Complex temp_2 = new Complex();
+        int degree = factors.size() - 1;
+
+        for (int i = 0; i <= degree; i++) {
+            temp_2 = temp_2.multiply(factors.get(i), getPowerOfComplex(argument, i));
+            temp = temp.add(temp_2);
+        }
+        return temp;
+    }
+
+    private Complex getPowerOfComplex(Complex argument, int exponentVal) {
+        if (exponentVal == 0) return argument;
+        if (exponentVal % 2 == 0) {
+            return new Complex(argument.getRealPart() - argument.getImaginaryPart(), true);
+        } else {
+        }
+        return null;
+    }
+
+
+
     /**
      * Round up Doubles to 3 decimal places
      *
