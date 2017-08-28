@@ -104,10 +104,16 @@ class CalculateRoots {
     }
 
     private List<Complex> cubic(List<Complex> factors) {
+        /*
+          TODO: implement cubic formula
+         */
         return null;
     }
 
     private List<Complex> quartic(List<Complex> factors) {
+        /*
+          TODO: implement quartic formula
+         */
         return null;
     }
 
