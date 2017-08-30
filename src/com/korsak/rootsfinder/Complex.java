@@ -66,6 +66,31 @@ class Complex {
      * @return product of multiplication
      */
     Complex multiply(Complex... factors) {
+        for (Complex factor : factors) {
+            multiplyTwoComplex(factor);
+        }
+        return this;
+    }
+/*
+    Complex multiply(Complex... factors){
+        int size = factors.length;
+        if(size == 0) return this;
+
+        multiplyTwoComplex(factors[size - 1]);
+
+        //System.arraycopy(factors, 0, factors, 0, size - 2);
+        Complex[] nFactors = new Complex[size - 1];
+        for(int i = 0; i <= size - 2; i++){
+            nFactors[i] = factors[i];
+        }
+
+        return multiply(nFactors);
+
+        //return multiply(factors);
+    }
+    */
+
+    /*Complex multiply(Complex... factors) {
         Double realPart = 1.0;
         Double imaginaryPart = 1.0;
 
@@ -74,6 +99,13 @@ class Complex {
             imaginaryPart *= product.getImaginaryPart();
         }
         return new Complex(realPart, imaginaryPart);
+    }*/
+
+    private void multiplyTwoComplex(Complex input) {
+        setRealPart((this.realPart * input.realPart) - (this.imaginaryPart * input.imaginaryPart));
+        setImaginaryPart((this.realPart * input.imaginaryPart) + (input.realPart * this.imaginaryPart));
+        //return new Complex((this.realPart * input.realPart) - (this.imaginaryPart * input.imaginaryPart),
+        //        (this.realPart * input.imaginaryPart) + (input.realPart * this.imaginaryPart));
     }
 
     /**
@@ -96,39 +128,11 @@ class Complex {
      * @return a module of a given Complex
      */
     Double module(Complex argument) {
-        //sqrt ( (re)^2 + (im)^2 )
         return sqrt(pow(argument.getRealPart(), 2) + pow(argument.getImaginaryPart(), 2));
     }
 
-    static long binomial(int n, int k) {
-        if (k > n - k)
-            k = n - k;
-
-        long b = 1;
-        for (int i = 1, m = n; i <= k; i++, m--)
-            b = b * m / i;
-        return b;
-    }
-
-    static Complex productOfSum(Complex argument, int degree) {
-        Double realPart = 0.0;
-        Double imaginaryPart = 0.0;
-
-        for (int k = 0; k <= degree; k++) {
-
-        }
-        return null;
-    }
-
-    /**
-     * The square of the current complex number.
-     *
-     * @return a Complex which is the square of the current complex number.
-     */
-
-    public Complex square() {
-        Double real = this.realPart * this.realPart - this.imaginaryPart * this.imaginaryPart;
-        Double imaginary = 2 * this.realPart * this.imaginaryPart;
-        return new Complex(real, imaginary);
+    @Override
+    public String toString() {
+        return realPart + " + " + imaginaryPart + "i";
     }
 }

@@ -26,15 +26,14 @@ public class TestCases {
                 new Complex(55.0, true), new Complex(-13.0, true), new Complex(1.0, true));
 
 
-
-        test(f_1, 1);
-        test(f_2, 2);
+        //test(f_1, 1);
+        //test(f_2, 2);
         test(f_3, 3);
         test(f_4, 4);
         test(f_5, 5);
         test(f_6, 6);
-        test(f_7, 7);
-        test(f_8, 8);
+        //test(f_7, 7);
+        //test(f_8, 8);
         test(f_9, 9);
     }
 
