@@ -16,6 +16,11 @@ class Complex {
         this.imaginaryPart = imaginaryPart;
     }
 
+    Complex(Complex argument) {
+        this.setRealPart(argument.realPart);
+        this.setImaginaryPart(argument.imaginaryPart);
+    }
+
     private Double realPart;
     private Double imaginaryPart;
 

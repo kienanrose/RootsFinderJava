@@ -158,21 +158,25 @@ class CalculateRoots {
      * @return result of horner's method
      */
     private List<Complex> hornersMethod(List<Complex> factors, Complex root) {
+
         int i = factors.size() - 1;
+
         List<Complex> resultOfDivision = new ArrayList<>();
-        Complex temp = new Complex();
 
-        resultOfDivision.add(factors.get(i));
+        Complex k = factors.get(i);
 
-        temp = temp.multiply(root, factors.get(i)).add(factors.get(i - 1));
+        resultOfDivision.add(new Complex(k));
+        k.multiply(root);
+        Complex a = factors.get(i - 1);
+        k.add(a);
 
-        resultOfDivision.add(temp);
+        resultOfDivision.add(new Complex(k));
 
 
         while (i > 1) {
             i--;
-            temp = temp.multiply(root, temp).add(factors.get(i - 1));
-            resultOfDivision.add(temp);
+            k.multiply(root).add(factors.get(i - 1));
+            resultOfDivision.add(new Complex(k));
         }
 
         // change order of resultOfDivision
@@ -208,8 +212,8 @@ class CalculateRoots {
         int degree = factors.size() - 1;
 
         for (int i = 0; i <= degree; i++) {
-            temp_2 = temp_2.multiply(factors.get(i), getPowerOfComplex(argument, i));
-            temp = temp.add(temp_2);
+            temp_2.multiply(factors.get(i), getPowerOfComplex(argument, i));
+            temp.add(temp_2);
         }
         return temp;
     }
