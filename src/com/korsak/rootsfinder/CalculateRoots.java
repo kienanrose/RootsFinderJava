@@ -61,8 +61,6 @@ class CalculateRoots {
                     roots.addAll(quadratic(factors));
                     return roots;
                 }
-
-                //if (roots.size() == degree) return roots;
             }
         }
         return roots;
@@ -150,12 +148,11 @@ class CalculateRoots {
 
 
     /**
-     * It executes the horners method on a list of Doubles
-     * TODO: extend it to complex numbers
+     * It executes the Horner's method on a list of Complex objects
      *
      * @param factors input list
      * @param root    input root
-     * @return result of horner's method
+     * @return result of Horner's method
      */
     private List<Complex> hornersMethod(List<Complex> factors, Complex root) {
 
@@ -205,28 +202,6 @@ class CalculateRoots {
         }
         return value;
     }
-
-    private Complex evaluate(List<Complex> factors, Complex argument) {
-        Complex temp = new Complex();
-        Complex temp_2 = new Complex();
-        int degree = factors.size() - 1;
-
-        for (int i = 0; i <= degree; i++) {
-            temp_2.multiply(factors.get(i), getPowerOfComplex(argument, i));
-            temp.add(temp_2);
-        }
-        return temp;
-    }
-
-    private Complex getPowerOfComplex(Complex argument, int exponentVal) {
-        if (exponentVal == 0) return argument;
-        if (exponentVal % 2 == 0) {
-            return new Complex(argument.getRealPart() - argument.getImaginaryPart(), true);
-        } else {
-        }
-        return null;
-    }
-
 
 
     /**

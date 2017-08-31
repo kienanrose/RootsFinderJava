@@ -25,16 +25,20 @@ public class TestCases {
         List<Complex> f_9 = Arrays.asList(new Complex(168.0, true), new Complex(4.0, true), new Complex(-95.0, true),
                 new Complex(55.0, true), new Complex(-13.0, true), new Complex(1.0, true));
 
+        List<Complex> f_10 = Arrays.asList(new Complex(3.0, -9.0), new Complex(-8.0, 3.0),
+                new Complex(2.0, false), new Complex(1.0, true));
 
-        //test(f_1, 1);
-        //test(f_2, 2);
+
+        test(f_1, 1);
+        test(f_2, 2);
         test(f_3, 3);
         test(f_4, 4);
         test(f_5, 5);
         test(f_6, 6);
-        //test(f_7, 7);
-        //test(f_8, 8);
+        test(f_7, 7);
+        test(f_8, 8);
         test(f_9, 9);
+        test(f_10, 10);
     }
 
     private static void test(List<Complex> testCase, int test) {
