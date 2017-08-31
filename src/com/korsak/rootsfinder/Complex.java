@@ -5,18 +5,29 @@ import static java.lang.Math.sqrt;
 
 class Complex {
 
-    private Double realPart;
-    private Double imaginaryPart;
-
     /**
      * Complex has both real and imaginary parts
      *
      * @param realPart      a real number
      * @param imaginaryPart an imaginary number
      */
-    private Complex(Double realPart, Double imaginaryPart) {
+    Complex(Double realPart, Double imaginaryPart) {
         this.realPart = realPart;
         this.imaginaryPart = imaginaryPart;
+    }
+
+    private Double realPart;
+    private Double imaginaryPart;
+
+    public static void main(String[] args) {
+        Complex a = new Complex(2.0, 3.0);
+        Complex b = new Complex(3.0, 4.0);
+        Complex c = new Complex(5.0, 6.0);
+
+        a.multiply(b, c);
+        System.out.println(a.toString());
+
+        //multiplication works
     }
 
     /**
@@ -66,8 +77,13 @@ class Complex {
      * @return product of multiplication
      */
     Complex multiply(Complex... factors) {
+        Double real;
+        Double imaginary;
         for (Complex factor : factors) {
-            multiplyTwoComplex(factor);
+            real = (this.realPart * factor.realPart) - (this.imaginaryPart * factor.imaginaryPart);
+            imaginary = (this.realPart * factor.imaginaryPart) + (this.imaginaryPart * factor.realPart);
+            setRealPart(real);
+            setImaginaryPart(imaginary);
         }
         return this;
     }
@@ -88,7 +104,7 @@ class Complex {
 
         //return multiply(factors);
     }
-    */
+*/
 
     /*Complex multiply(Complex... factors) {
         Double realPart = 1.0;
@@ -101,13 +117,6 @@ class Complex {
         return new Complex(realPart, imaginaryPart);
     }*/
 
-    private void multiplyTwoComplex(Complex input) {
-        setRealPart((this.realPart * input.realPart) - (this.imaginaryPart * input.imaginaryPart));
-        setImaginaryPart((this.realPart * input.imaginaryPart) + (input.realPart * this.imaginaryPart));
-        //return new Complex((this.realPart * input.realPart) - (this.imaginaryPart * input.imaginaryPart),
-        //        (this.realPart * input.imaginaryPart) + (input.realPart * this.imaginaryPart));
-    }
-
     /**
      * @param products a container of Complex objects
      * @return a result of adding products
@@ -119,7 +128,10 @@ class Complex {
             realPart += product.getRealPart();
             imaginaryPart += product.getImaginaryPart();
         }
-        return new Complex(realPart, imaginaryPart);
+        this.setRealPart(realPart);
+        this.setImaginaryPart(imaginaryPart);
+
+        return this;
     }
 
     /**
