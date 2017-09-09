@@ -150,6 +150,19 @@ class Complex {
 
     @Override
     public String toString() {
-        return realPart + " + " + imaginaryPart + "i";
+        String r = getRealPart().toString();
+        String i = getImaginaryPart().toString();
+        String sign = " + ";
+        String is = "i";
+
+        if(getImaginaryPart() < 0) sign = " ";
+        else if(getImaginaryPart() == 0){
+            i = "";
+            is = "";
+            sign = "";
+        }
+        if(getRealPart() == 0) r = "";
+
+        return r + sign + i + is;
     }
 }

@@ -29,6 +29,8 @@ public class TestCases {
                 new Complex(2.0, false), new Complex(1.0, true));
 
 
+        List<Complex> f_11 = Arrays.asList(new Complex(1.0, true), new Complex(-3.0, true), new Complex(3.0, true), new Complex(-1.0, true));
+
         test(f_1, 1);
         test(f_2, 2);
         test(f_3, 3);
@@ -39,6 +41,7 @@ public class TestCases {
         test(f_8, 8);
         test(f_9, 9);
         test(f_10, 10);
+        test(f_11, 11);
     }
 
     private static void test(List<Complex> testCase, int test) {
@@ -48,15 +51,7 @@ public class TestCases {
         System.out.println("Test(" + test + ") " + (System.currentTimeMillis() - startTime) + " ms (execution time)");
 
         for (Complex complex : results) {
-            System.out.print("x = ");
-            if (complex.getImaginaryPart() == 0.0) {
-                System.out.print(complex.getRealPart());
-            } else if (complex.getRealPart() == 0.0) {
-                System.out.print(complex.getImaginaryPart() + " i");
-            } else {
-                System.out.print(complex.getRealPart() + " + " + complex.getImaginaryPart() + " i");
-            }
-            System.out.println();
+            System.out.print("x = " + complex.toString() + "\n");
         }
     }
 }

@@ -24,6 +24,8 @@ class CalculateRoots {
                 return new ArrayList<>(Collections.singletonList(linear(factors)));
             case 2:
                 return quadratic(factors);
+            //case 3:
+            //    return cubic(factors);
         }
 
         int rootsFound = 0;
@@ -102,9 +104,22 @@ class CalculateRoots {
     }
 
     private List<Complex> cubic(List<Complex> factors) {
-        /*
-          TODO: implement cubic formula
-         */
+        Double discriminant_0, discriminant_1, C_1, C_2, C;
+        Double a = factors.get(3).getRealPart();
+        Double b = factors.get(2).getRealPart();
+        Double c = factors.get(1).getRealPart();
+        Double d = factors.get(0).getRealPart();
+
+        // b^2 - 3ac
+        discriminant_0 = pow(b, 2) - 3 * a * c;
+        discriminant_1 = 2 * pow(b, 3) - 9 * a * b * c + 27 * pow(a, 2) * d;
+
+        C = cbrt((sqrt(pow(discriminant_1, 2) + discriminant_1 - 4 * pow(discriminant_0, 3))) / 2);
+
+        // (b + u^nC + (Δ0/u^nC)) / 3a
+        // u = (-1 + √(-3))/2
+        // n = {1, 2, 3}
+
         return null;
     }
 
@@ -163,12 +178,9 @@ class CalculateRoots {
         Complex k = factors.get(i);
 
         resultOfDivision.add(new Complex(k));
-        k.multiply(root);
-        Complex a = factors.get(i - 1);
-        k.add(a);
 
+        k.multiply(root).add(factors.get(i - 1));
         resultOfDivision.add(new Complex(k));
-
 
         while (i > 1) {
             i--;
